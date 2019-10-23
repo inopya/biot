@@ -1,6 +1,6 @@
 # biot
 
-Actualizado el fichero biodata.py a version 1.1
+Actualizado el fichero biodata.py a version 1.2
 
 * Se han agrupado todos los datos que deben ser configurados por el usuario para mayor comodidad.
 * Añadidos dos nuevos comandos a telegram:
@@ -9,3 +9,4 @@ Actualizado el fichero biodata.py a version 1.1
 
 * Se ha suprimido la representacion de dos variables (luz roja y luz azul) ya que no se conectaron y solo mostraban ruido.
 * Se han separado las graficas de temperatura y humedad para que se muestren mejor en sus respectivas escalas.
+* Modificada la funcion de representacion grafica para que solo represente como maximo las ultimas 24 horas
