@@ -759,12 +759,12 @@ def convertir_Datos_to_TXT(datos, nombreDatosFile, cabecera=""):
 
 def dibujar_grafica(datos_brutos_experimento):
     '''
-    Funcion para relizar la representacion de la grafica con los datos que se van adquiriendo de ARDUINO
-    Esta sera la grafica que visualizamos en la maquina en la que se ejecuta Meteosorbas
-    y que enviaremos a los clietnes cuando nos la soliciten.
+    Funcion para realizar la representacion de la grafica con los datos que se van adquiriendo de ARDUINO
+    Esta sera la grafica que visualizamos en la maquina en la que se ejecuta el bot
+    y que enviaremos a los clientes cuando nos la soliciten.
     Esta grafica representa siempre las ultimas 24 horas
-    Tambien en esta funcion nos encargamos de realiazr los calculos para los valores medios
-    recibe una lista que contiene elemntos que a su vez son listas/tuplas con todos los datos de interes:
+    Tambien en esta funcion nos encargamos de realiazar los calculos (max, min...).
+    recibe una lista que contiene elementos que a su vez son listas/tuplas con todos los datos de interes:
 
     '''
     try:
