@@ -768,6 +768,8 @@ def dibujar_grafica(datos_brutos_experimento):
 
     '''
     try:
+        if(len(datos_brutos_experimento) >1440):
+            datos_brutos_experimento = datos_brutos_experimento[-1440:]
         # [ [              1               ], [              2               ], ....]   
         # [ [[metadatos1],[datos sensores1]], [[metadatos2],[datos sensores2]], ]
         # [metadatos] = ID, FECHA, RELOJ >> 2019_05_11 19:38:02
