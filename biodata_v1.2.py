@@ -1291,7 +1291,7 @@ if puertoDetectado:
                             lista_Datos_Experimento_Bio = lista_Datos_Experimento_Bio[:-15]
                     else:
                         send_message ('datos insuficuentes, intentalo mas tarde', chat_id)
-                    FLAG_delete = False
+                    FLAG_delete_start = False
             except:
                 print ("ERROR al borrar las 15 ultimas muestras")                
         plt.pause(.025)  ## refresco continuo del area de la grafica.
