@@ -152,7 +152,7 @@ URL = "https://api.telegram.org/bot{}/".format(TOKEN)
 
 update_id = None
 
-user_keyboard = [['/info','/fig'],['/email', '/txt'],['/save','/ayuda'],['/delete']]
+user_keyboard = [['/info','/fig'],['/email', '/txt'],['/save','/ayuda'],['/deleteOld','/deleteNew']]
 user_keyboard_markup = ReplyKeyboardMarkup(user_keyboard, one_time_keyboard=True)
 
 """ poner en marcha el bot """
@@ -164,7 +164,8 @@ listaComandos = ["/ayuda - Mostrar esta Ayuda", \
                  "/info - Mostrar datos actuales", \
                  "/txt - envia datos completos a telegram", \
                  "/fig - Grafico de Evolucion",\
-                 "/delete - Borra los 15 primeros datos",\
+                 "/deleteOld - Borra los 15 primeros datos",\
+                 "/deleteNew - Borra los 15 ultimos datos",\
                  "/save - Realiza una copia de seguridad","\n"]
 
 
@@ -207,9 +208,9 @@ FLAG_estacion_online = True         #podemos desactivala si no vamos a hacer uso
 FLAG_enviar_PNG = False             #controla el proceso de envio de grafica al usuario
 FLAG_enviar_TXT = False             #controla el proceso de envio de fichero de datos al usuario
 
-FLAG_delete = False                 #control de borrado de los primeros datos tomados
+FLAG_delete_start = False           #control de borrado de los primeros datos tomados
 contador_delete = 0                 # control de seguridad apra el borrado de datos
-FLAG_delete_start = False
+FLAG_delete_end = False             #control de borrado de los ultimos datos tomados
 FLAG_pruebas = False                #Para hacer pruebas con telegram (sin uso)
 FLAG_foto_webcam = False            #Por si se quiere dotar al experimento de una camara para tenerlo monitorizado
 
@@ -338,7 +339,7 @@ def atenderTelegramas(bot):
     complejos que contiene parametros
     '''
     global text, chat_id, chat_time, comando, chat_user_name
-    global FLAG_enviar_PNG, FLAG_pruebas, FLAG_enviar_TXT, FLAG_delete, FLAG_delete_start
+    global FLAG_enviar_PNG, FLAG_pruebas, FLAG_enviar_TXT, FLAG_delete_start, FLAG_delete_end
 
     global update_id
     chat_id = 0
@@ -417,11 +418,11 @@ def atenderTelegramas(bot):
                         FLAG_enviar_TXT = True
                         return
                     
-                    if comando == "/delete" and (chat_id == ADMIN_USER or ADMIN_USER == None):
-                        FLAG_delete = True
-                        return
-                    if comando == "/admin" and (chat_id == ADMIN_USER or ADMIN_USER == None):
+                    if comando == "/deleteOld" and (chat_id == ADMIN_USER or ADMIN_USER == None):
                         FLAG_delete_start = True
+                        return
+                    if comando == "/deleteNew" and (chat_id == ADMIN_USER or ADMIN_USER == None):
+                        FLAG_delete_end = True
                         return                    
                 except:
                     print ("----- ERROR ATENDIENDO TELEGRAMAS ----------------------")                      
@@ -1274,24 +1275,24 @@ if puertoDetectado:
         # ========== GESTIONAR PETICIONES  DE BORRADO DE DATOS ==================================================================
         if FLAG_estacion_online == True: 
             try:
-                #por si alguien nos pide borrar         
-                if FLAG_delete == True:
+                #por si alguien nos pide borrar datos iniciales        
+                if FLAG_delete_start == True:
                     if len(lista_Datos_Experimento_Bio) > 17:
                             lista_Datos_Experimento_Bio = lista_Datos_Experimento_Bio[15:]
                     else:
                         send_message ('datos insuficuentes, intentalo mas tarde', chat_id)
-                    FLAG_delete = False
+                    FLAG_delete_start = False
             except:
                 print ("ERROR al borrar las 15 primeras muestras")
                 
             try:
-                #por si alguien nos pide borrar         
-                if FLAG_delete_start == True:
+                #por si alguien nos pide borrar datos finales         
+                if FLAG_delete_end == True:
                     if len(lista_Datos_Experimento_Bio) > 17:
                             lista_Datos_Experimento_Bio = lista_Datos_Experimento_Bio[:-15]
                     else:
                         send_message ('datos insuficuentes, intentalo mas tarde', chat_id)
-                    FLAG_delete_start = False
+                    FLAG_delete_end = False
             except:
                 print ("ERROR al borrar las 15 ultimas muestras")                
         plt.pause(.025)  ## refresco continuo del area de la grafica.
