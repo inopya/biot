@@ -209,6 +209,7 @@ FLAG_enviar_TXT = False             #controla el proceso de envio de fichero de 
 
 FLAG_delete = False                 #control de borrado de los primeros datos tomados
 contador_delete = 0                 # control de seguridad apra el borrado de datos
+FLAG_delete_start = False
 FLAG_pruebas = False                #Para hacer pruebas con telegram (sin uso)
 FLAG_foto_webcam = False            #Por si se quiere dotar al experimento de una camara para tenerlo monitorizado
 
@@ -337,7 +338,7 @@ def atenderTelegramas(bot):
     complejos que contiene parametros
     '''
     global text, chat_id, chat_time, comando, chat_user_name
-    global FLAG_enviar_PNG, FLAG_pruebas, FLAG_enviar_TXT, FLAG_delete
+    global FLAG_enviar_PNG, FLAG_pruebas, FLAG_enviar_TXT, FLAG_delete, FLAG_delete_start
 
     global update_id
     chat_id = 0
@@ -419,7 +420,9 @@ def atenderTelegramas(bot):
                     if comando == "/delete" and (chat_id == ADMIN_USER or ADMIN_USER == None):
                         FLAG_delete = True
                         return
-                    
+                    if comando == "/admin" and (chat_id == ADMIN_USER or ADMIN_USER == None):
+                        FLAG_delete_start = True
+                        return                    
                 except:
                     print ("----- ERROR ATENDIENDO TELEGRAMAS ----------------------")                      
                 if chat_id != 0:
@@ -1271,7 +1274,7 @@ if puertoDetectado:
         # ========== GESTIONAR PETICIONES  DE BORRADO DE DATOS ==================================================================
         if FLAG_estacion_online == True: 
             try:
-                #por si alguien nos pide la grafica          
+                #por si alguien nos pide borrar         
                 if FLAG_delete == True:
                     if len(lista_Datos_Experimento_Bio) > 17:
                             lista_Datos_Experimento_Bio = lista_Datos_Experimento_Bio[15:]
@@ -1281,6 +1284,16 @@ if puertoDetectado:
             except:
                 print ("ERROR al borrar las 15 primeras muestras")
                 
+            try:
+                #por si alguien nos pide borrar         
+                if FLAG_delete_start == True:
+                    if len(lista_Datos_Experimento_Bio) > 17:
+                            lista_Datos_Experimento_Bio = lista_Datos_Experimento_Bio[:-15]
+                    else:
+                        send_message ('datos insuficuentes, intentalo mas tarde', chat_id)
+                    FLAG_delete = False
+            except:
+                print ("ERROR al borrar las 15 ultimas muestras")                
         plt.pause(.025)  ## refresco continuo del area de la grafica.
     plt.close('all') 
 
