@@ -122,7 +122,7 @@ lista_correo_experimento = ['sorbasdigital@hotmail.com']      #quitar esta y pon
 
 
 #CLAVE para la API de telegram (token del bot)
-TOKEN = "984228214:AAFBx7QZTaAeyC9CAXGpvmyNg9K8OwDE4Ng" # quitar este y poner el de vuestro bot
+TOKEN = "1254789654:abcdefgtyhjuikloplñljhgffkjuñññg" # quitar este y poner el de vuestro bot
 
 
 # Definimos la id del que sera el usuarios administrador y que dispondra de derechos de uso completo
